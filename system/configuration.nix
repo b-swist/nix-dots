@@ -16,8 +16,10 @@
   systemd.services.suspend-fix = {
     enable = true;
     description = "Worfaround for Gigabyte B550 suspend bug";
-    unitConfig.Type = "oneshot";
-    serviceConfig.ExecStart = "/bin/sh -c \"echo GPP0 > /proc/acpi/wakeup\"";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "/bin/sh -c \"echo GPP0 > /proc/acpi/wakeup\"";
+    };
     wantedBy = [ "multi-user.target" ];
   };
 
@@ -37,24 +39,11 @@
   users.users.anon = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
-    packages = with pkgs; [
-      slurp
-      grim
-      wl-clipboard
-    ];
+    # packages = with pkgs; [ ];
   };
 
   security.polkit.enable = true;
-
   hardware.graphics.enable = true;
-
-  programs = {
-    firefox.enable = true;
-    # sway = {
-    #   enable = true;
-    #   wrapperFeatures.gtk = true;
-    # };
-  };
 
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
@@ -62,6 +51,10 @@
     wget
     texliveFull
     zathura
+  ];
+
+  fonts.packages = with pkgs; [
+    nerd-fonts.commit-mono
   ];
 
   services = {

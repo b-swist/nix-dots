@@ -17,13 +17,13 @@
     nixosConfigurations = {
       strontium-pc = nixpkgs.lib.nixosSystem {
         inherit system;
-        modules = [ ./configuration.nix ];
+        modules = [ ./system/configuration.nix ];
       };
     };
     homeConfigurations = {
       anon = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        modules = [ ./home.nix ];
+        modules = [ ./home/home.nix ];
       };
     };
   };

@@ -3,6 +3,8 @@
 {
   imports = [
     ./sway.nix
+    ./firefox.nix
+    ./sh.nix
   ];
 
   home = {
@@ -22,14 +24,6 @@
       userName = "b-swist";
       userEmail = "bswist@protonmail.com";
       extraConfig.init.defaultBranch = "main";
-    };
-
-    bash = {
-      enable = true;
-      shellAliases = {
-        ll = "ls -lAh";
-        ".." = "cd ..";
-      };
     };
   };
 }

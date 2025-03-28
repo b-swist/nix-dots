@@ -1,6 +1,13 @@
 { config, pkgs, ... }:
 
 {
+  home.packages = with pkgs; [
+    foot
+    slurp
+    grim
+    wl-clipboard
+  ];
+
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -25,6 +32,8 @@
         outer = 5;
       };
 
+      bars = [];
+
       window = {
         border = 0;
         titlebar = false;
@@ -44,7 +53,7 @@
         "${mod}+Tab" = "split toggle";
         "${mod}+Space" = "floating toggle";
         "${mod}+f" = "fullscreen";
-        "${mod}+Shift+r" = "reload";
+        # "${mod}+Shift+r" = "reload";
         "${mod}+Shift+q" = "exec swaymsg exit";
 
         "${mod}+Return" = "exec ${term}";
