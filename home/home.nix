@@ -3,8 +3,11 @@
 {
   imports = [
     ./sway.nix
+    ./waybar/waybar.nix
+
     ./firefox.nix
     ./sh.nix
+    ./nvim.nix
   ];
 
   home = {
