@@ -15,7 +15,7 @@
 
   systemd.services.suspend-fix = {
     enable = true;
-    description = "Worfaround for Gigabyte B550 suspend bug";
+    description = "Workaround for Gigabyte B550 suspend bug";
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "/bin/sh -c \"echo GPP0 > /proc/acpi/wakeup\"";
