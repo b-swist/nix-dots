@@ -1,8 +1,12 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./waybar.nix
+    ./foot.nix
+  ];
+
   home.packages = with pkgs; [
-    foot
     slurp
     grim
     wl-clipboard
@@ -25,6 +29,7 @@
       output."*" = {
         mode = "1920x1080@74.973Hz";
         position = "0,0";
+        bg = "#ffffff solid_color";
       };
 
       gaps = {
@@ -32,7 +37,7 @@
         outer = 5;
       };
 
-      bars = [];
+      bars = [ { command = "${pkgs.waybar}/bin/waybar"; } ];
 
       window = {
         border = 0;
