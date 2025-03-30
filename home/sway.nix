@@ -107,6 +107,14 @@
         "--locked XF86AudioLowerVolume" = "exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%- -l 1";
         "--locked XF86AudioRaiseVolume" = "exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1";
       };
+
+      modes.resize = {
+        "Escape" = "mode default";
+        "h" = "resize shrink width 10 px";
+        "j" = "resize grow height 10 px";
+        "k" = "resize shrink height 10 px";
+        "l" = "resize grow width 10 px";
+      };
     };
   };
 }
