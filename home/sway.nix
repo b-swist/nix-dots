@@ -106,6 +106,7 @@
         "--locked XF86AudioMute" = "exec ${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle";
         "--locked XF86AudioLowerVolume" = "exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%- -l 1";
         "--locked XF86AudioRaiseVolume" = "exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1";
+        "${mod}+r" = "mode resize";
       };
 
       modes.resize = {

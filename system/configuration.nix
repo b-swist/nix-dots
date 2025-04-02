@@ -49,8 +49,6 @@
   environment.systemPackages = with pkgs; [
     neovim
     wget
-    texliveFull
-    zathura
   ];
 
   fonts.packages = with pkgs; [

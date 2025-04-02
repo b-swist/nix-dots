@@ -12,7 +12,9 @@
     username = "anon";
     homeDirectory = "/home/anon";
     stateVersion = "24.11";
-    # packages = [];
+    packages = with pkgs; [
+      zathura
+    ];
     # file = {};
     # sessionVariables = {};
   };
