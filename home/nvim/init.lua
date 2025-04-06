@@ -2,10 +2,10 @@
 vim.opt.clipboard = "unnamedplus"
 vim.opt.mouse = "a"
 vim.opt.undofile = true
-vim.opt.signcolumn = "yes" vim.opt.inccommand = "split"
+vim.opt.signcolumn = "yes"
+vim.opt.inccommand = "split"
 vim.opt.list = true
 vim.opt.showmode = false
-
 vim.opt.number = true
 vim.opt.scrolloff = 8
 vim.opt.splitbelow = true
@@ -28,7 +28,7 @@ vim.opt.termguicolors = true
 
 -- language-specific options
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "nix" },
+    pattern = "nix",
     callback = function()
         vim.opt_local.tabstop = 2
         vim.opt_local.softtabstop = 2
@@ -47,6 +47,7 @@ vim.keymap.set("n", "<C-h>", "<C-w><C-h>", opts)
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", opts)
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", opts)
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", opts)
+
 vim.keymap.set("v", "<", "<gv", opts)
 vim.keymap.set("v", ">", ">gv", opts)
 

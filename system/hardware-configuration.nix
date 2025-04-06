@@ -34,6 +34,16 @@
   networking.useDHCP = lib.mkDefault true;
   # networking.interfaces.eno1.useDHCP = lib.mkDefault true;
 
+  systemd.services.suspend-fix = {
+    enable = true;
+    description = "Workaround for Gigabyte B550 suspend bug";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "/bin/sh -c \"echo GPP0 > /proc/acpi/wakeup\"";
+    };
+    wantedBy = [ "multi-user.target" ];
+  };
+
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

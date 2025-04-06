@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, settings, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -13,18 +13,8 @@
     efi.canTouchEfiVariables = true;
   };
 
-  systemd.services.suspend-fix = {
-    enable = true;
-    description = "Workaround for Gigabyte B550 suspend bug";
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "/bin/sh -c \"echo GPP0 > /proc/acpi/wakeup\"";
-    };
-    wantedBy = [ "multi-user.target" ];
-  };
-
   networking = {
-    hostName = "strontium-pc";
+    hostName = settings.hostname;
     networkmanager.enable = true;
     firewall.enable = true;
   };
@@ -36,7 +26,7 @@
     keyMap = "pl";
   };
 
-  users.users.anon = {
+  users.users.${settings.username} = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     # packages = with pkgs; [ ];
@@ -57,7 +47,7 @@
 
   services = {
     # xserver.enable = true;
-    printing.enable = true; #CUPS
+    printing.enable = true; # CUPS
     udisks2.enable = true;
     pipewire = {
       enable = true;

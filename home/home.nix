@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, settings, ... }:
 
 {
   imports = [
@@ -9,8 +9,8 @@
   ];
 
   home = {
-    username = "anon";
-    homeDirectory = "/home/anon";
+    username = settings.username;
+    homeDirectory = "/home/${settings.username}";
     stateVersion = "24.11";
     packages = with pkgs; [
       zathura

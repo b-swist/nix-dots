@@ -1,6 +1,13 @@
 { pkgs, lib, ... }:
 
 {
+  home.file = {
+    ".config/nvim/init.lua".source = ./init.lua;
+    ".config/nvim/lua" = {
+      source = ./lua;
+      recursive = true;
+    };
+  };
   programs.neovim = {
     enable = true;
     viAlias = true;
@@ -9,19 +16,11 @@
       lua-language-server
       nixd
     ];
-    extraLuaConfig = lib.fileContents ./init.lua;
+    # extraLuaConfig = lib.fileContents ./init.lua;
     plugins = with pkgs.vimPlugins; [
-      {
-        plugin = nvim-lspconfig;
-        config = lib.fileContents ./plugins/lsp.lua;
-        type = "lua";
-      }
+      nvim-lspconfig
       nvim-treesitter.withAllGrammars
-      {
-        plugin = lualine-nvim;
-        config = lib.fileContents ./plugins/lualine.lua;
-        type = "lua";
-      }
+      lualine-nvim
     ];
   };
 }
