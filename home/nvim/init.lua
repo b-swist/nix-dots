@@ -68,3 +68,25 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- colorscheme
 vim.cmd.colorscheme("quiet")
 
+-- lsp
+local lspconfig = require("lspconfig")
+
+lspconfig.nixd.setup({ })
+lspconfig.lua_ls.setup({
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { "vim" }
+            }
+        }
+    }
+})
+
+-- lualine
+require("lualine").setup({
+    options = {
+        icons_enabled = false,
+        component_separators = "|",
+        section_separators = ""
+    }
+})

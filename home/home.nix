@@ -1,10 +1,10 @@
-{ config, pkgs, settings, ... }:
+{ pkgs, settings, ... }:
 
 {
   imports = [
     ./sway.nix
     ./bash.nix
-    ./firefox.nix
+    # ./firefox.nix
     ./nvim
   ];
 
