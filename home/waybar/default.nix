@@ -3,6 +3,7 @@
 {
   programs.waybar = {
     enable = true;
+    style = ./style.css;
     settings.bar = {
       layer = "top";
       position = "left";
@@ -18,16 +19,5 @@
 
       clock.format = "{:%H\n%M}";
     };
-
-    style = ''
-      * {
-        all: unset;
-      }
-
-      window#waybar {
-        background-color: #000000;
-        color: #ffffff;
-      }
-    '';
   };
 }

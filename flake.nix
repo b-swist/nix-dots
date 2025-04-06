@@ -9,19 +9,23 @@
     };
   };
 
-  outputs = { self, home-manager, nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:
   let
     system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
+    hostname = "strontium-pc";
+    user = "anon";
+    pkgs = import nixpkgs {
+      inherit system;
+    };
   in {
     nixosConfigurations = {
-      strontium-pc = nixpkgs.lib.nixosSystem {
+      ${hostname} = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [ ./system/configuration.nix ];
       };
     };
     homeConfigurations = {
-      anon = home-manager.lib.homeManagerConfiguration {
+      ${user} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [ ./home/home.nix ];
       };
