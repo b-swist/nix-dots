@@ -1,4 +1,4 @@
-{ pkgs, settings, ... }:
+{ pkgs, config, settings, ... }:
 
 {
   imports = [
@@ -17,6 +17,21 @@
     ];
     # file = {};
     # sessionVariables = {};
+  };
+
+  xdg.userDirs = let
+    home = config.home.homeDirectory;
+  in {
+    enable = true;
+    createDirectories = true;
+    desktop = "${home}/desktop";
+    documents = "${home}/documents";
+    download = "${home}/downloads";
+    music = "${home}/music";
+    pictures = "${home}/pictures";
+    templates = "${home}/templates";
+    publicShare = "${home}/public";
+    videos = "${home}/videos";
   };
 
   programs = {

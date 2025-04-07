@@ -21,13 +21,13 @@
       username = "anon";
     };
     pkgs = import nixpkgs {
-      system = settings.system;
+      inherit (settings) system;
       config.allowUnfree = true;
     };
   in {
     nixosConfigurations = {
       ${settings.hostname} = nixpkgs.lib.nixosSystem {
-        system = settings.system;
+        inherit (settings) system;
         specialArgs = { inherit settings; };
         modules = [ ./system/configuration.nix ];
       };
