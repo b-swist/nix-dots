@@ -8,6 +8,7 @@
     extraLuaConfig = lib.fileContents ./init.lua;
     extraPackages = with pkgs; [
       lua-language-server
+      haskell-language-server
       nixd
     ];
     plugins = with pkgs.vimPlugins; [
