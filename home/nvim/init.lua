@@ -68,10 +68,9 @@ vim.keymap.set("v", ">", ">gv", opts)
 
 -- tabs
 vim.keymap.set("n", "<leader>td", "<cmd>tabclose<CR>", opts)
--- for i = 1, 9 do
---     local tab = tostring(i)
---     vim.keymap.set("n", "<M-"..tab..">", tab.."gt", opts)
--- end
+for i = 1, 9 do
+    vim.keymap.set("n", "<M-"..i..">", i.."gt", opts)
+end
 
 -- buffers
 vim.keymap.set("n", "gb", "<cmd>bnext<CR>", opts)
@@ -79,8 +78,8 @@ vim.keymap.set("n", "gB", "<cmd>bprev<CR>", opts)
 vim.keymap.set("n", "<leader>bd", "<cmd>bdel<CR>", opts)
 
 -- diagnostics
-vim.keymap.set("n", "gd", "<cmd>lua vim.diagnostics.jump({ count = 1, float = true })<CR>", opts)
-vim.keymap.set("n", "gD", "<cmd>lua vim.diagnostics.jump({ count = -1, float = true })<CR>", opts)
+vim.keymap.set("n", "gd", "<cmd>lua vim.diagnostic.jump({ count = 1, float = true })<CR>", opts)
+vim.keymap.set("n", "gD", "<cmd>lua vim.diagnostic.jump({ count = -1, float = true })<CR>", opts)
 vim.keymap.set("n", "<leader>dc", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 vim.diagnostic.config({ virtual_text = true })
 
@@ -123,7 +122,6 @@ function fterm:create_win()
         style = "minimal",
         border = "single" -- none | single | double | rounded | solid | shadow
     })
-    -- vim.api.nvim_set_option_value( "statusline", "%#StatusLine#Floating Terminal", { win = self.win })
 end
 
 function fterm:create_buf()
