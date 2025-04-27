@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -12,41 +12,34 @@
     wl-clipboard
   ];
 
-  wayland.windowManager.sway = {
+  wayland.windowManager.sway = rec {
     enable = true;
     wrapperFeatures.gtk = true;
     config = {
       modifier = "Mod4";
       terminal = "${pkgs.foot}/bin/foot";
-
       focus.followMouse = true;
-
       input."*" = {
         xkb_layout = "pl";
         accel_profile = "flat";
       };
-
       output."*" = {
         mode = "1920x1080@74.973Hz";
         position = "0,0";
         bg = "#ffffff solid_color";
       };
-
       gaps = {
         inner = 10;
         outer = 5;
       };
-
       bars = [ { command = "${pkgs.waybar}/bin/waybar"; } ];
-
       window = {
         border = 0;
         titlebar = false;
       };
-
       keybindings = let
-        mod = config.wayland.windowManager.sway.config.modifier;
-        term = config.wayland.windowManager.sway.config.terminal;
+        mod = config.modifier;
+        term = config.terminal;
         browser = "${pkgs.firefox}/bin/firefox";
         slurp = "${pkgs.slurp}/bin/slurp";
         grim = "${pkgs.grim}/bin/grim";
@@ -58,12 +51,11 @@
         "${mod}+Tab" = "split toggle";
         "${mod}+Space" = "floating toggle";
         "${mod}+f" = "fullscreen";
-        # "${mod}+Shift+r" = "reload";
+        "${mod}+r" = "mode resize";
         "${mod}+Shift+q" = "exec swaymsg exit";
 
         "${mod}+Return" = "exec ${term}";
         "${mod}+b" = "exec ${browser}";
-        # bindsym $mod+d exec $menu
         "Print" = "exec ${slurp} | ${grim} -g - - | ${wl-copy}";
 
         "${mod}+h" = "focus left";
@@ -106,7 +98,6 @@
         "--locked XF86AudioMute" = "exec ${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle";
         "--locked XF86AudioLowerVolume" = "exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%- -l 1";
         "--locked XF86AudioRaiseVolume" = "exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1";
-        "${mod}+r" = "mode resize";
       };
 
       modes.resize = {

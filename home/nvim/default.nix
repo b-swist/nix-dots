@@ -3,6 +3,7 @@
 {
   programs.neovim = {
     enable = true;
+    defaultEditor = true;
     viAlias = true;
     vimAlias = true;
     extraLuaConfig = lib.fileContents ./init.lua;
@@ -12,9 +13,11 @@
       nixd
     ];
     plugins = with pkgs.vimPlugins; [
-      nvim-lspconfig
       nvim-treesitter.withAllGrammars
-      lualine-nvim
+      nvim-lspconfig
+      # telescope
+      # vimtex
+      nvim-autopairs
     ];
   };
 }
