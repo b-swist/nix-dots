@@ -1,7 +1,6 @@
 {
   description = "NixOS config";
 
-
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
     # nixpkgs-stable.url = "nixpkgs/nixos-24.11";
