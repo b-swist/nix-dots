@@ -5,7 +5,6 @@
     ./sway.nix
     ./bash.nix
     # ./firefox.nix
-    ./nvim
   ];
 
   home = {
