@@ -42,21 +42,6 @@
         "type": "github"
       }
     },
-    "nixCats": {
-      "locked": {
-        "lastModified": 1745981676,
-        "narHash": "sha256-KGkNQbZaX+1KKBjUoltOby36+rH2CPNLFpm1blZ5Li4=",
-        "owner": "BirdeeHub",
-        "repo": "nixCats-nvim",
-        "rev": "a4b78fc624b31b68536cdead4699c27bcb9e655a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "BirdeeHub",
-        "repo": "nixCats-nvim",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1746663147,
@@ -72,50 +57,11 @@
         "type": "indirect"
       }
     },
-    "nvim-flake": {
-      "inputs": {
-        "nixCats": "nixCats",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "plugins-spaceduck": "plugins-spaceduck"
-      },
-      "locked": {
-        "lastModified": 1746901787,
-        "narHash": "sha256-+sNM2ADLoEi+nOUC1qsNOFS3kyA3QijhGP5RbsN63Wc=",
-        "owner": "b-swist",
-        "repo": "nix-nvim",
-        "rev": "d55bca49a85caf576ee7f9b24dc72dc1e5bfa76c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "b-swist",
-        "repo": "nix-nvim",
-        "type": "github"
-      }
-    },
-    "plugins-spaceduck": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1703864850,
-        "narHash": "sha256-5xkjUd84w9Wc2it1Hc9OlqmZxRk4yAaJcmaSjO9actg=",
-        "owner": "spaceduck-theme",
-        "repo": "nvim",
-        "rev": "f476d6804114d04295ecad83979c7b3946b08010",
-        "type": "github"
-      },
-      "original": {
-        "owner": "spaceduck-theme",
-        "repo": "nvim",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "firefox-addons": "firefox-addons",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs",
-        "nvim-flake": "nvim-flake"
+        "nixpkgs": "nixpkgs"
       }
     }
   },
