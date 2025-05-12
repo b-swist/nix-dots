@@ -14,8 +14,12 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
-  let
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    ...
+  } @ inputs: let
     settings = {
       system = "x86_64-linux";
       hostname = "strontium-pc";
@@ -29,15 +33,15 @@
     nixosConfigurations = {
       ${settings.hostname} = nixpkgs.lib.nixosSystem {
         inherit (settings) system;
-        specialArgs = { inherit settings; };
-        modules = [ ./system/configuration.nix ];
+        specialArgs = {inherit settings;};
+        modules = [./system/configuration.nix];
       };
     };
     homeConfigurations = {
       ${settings.username} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = { inherit inputs settings; };
-        modules = [ ./home/home.nix ];
+        extraSpecialArgs = {inherit inputs settings;};
+        modules = [./home/home.nix];
       };
     };
   };

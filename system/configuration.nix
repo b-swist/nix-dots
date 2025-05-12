@@ -1,7 +1,11 @@
-{ config, lib, pkgs, settings, ... }:
-
 {
-  imports = [ ./hardware-configuration.nix ];
+  config,
+  lib,
+  pkgs,
+  settings,
+  ...
+}: {
+  imports = [./hardware-configuration.nix];
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -28,7 +32,7 @@
 
   users.users.${settings.username} = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = ["wheel"];
     # packages = with pkgs; [ ];
   };
 
@@ -58,4 +62,3 @@
 
   system.stateVersion = "24.11";
 }
-

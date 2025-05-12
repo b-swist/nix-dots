@@ -1,6 +1,8 @@
-{ inputs, settings, ... }:
-
 {
+  inputs,
+  settings,
+  ...
+}: {
   programs.firefox = {
     enable = true;
     profiles.${settings.username} = {

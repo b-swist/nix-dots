@@ -1,20 +1,21 @@
-{ pkgs, config, settings, ... }:
-
 {
+  pkgs,
+  config,
+  settings,
+  ...
+}: {
   imports = [
     ./sway.nix
     ./bash.nix
     # ./firefox.nix
+    ./river.nix
   ];
 
   home = {
     username = settings.username;
     homeDirectory = "/home/${settings.username}";
     stateVersion = "24.11";
-    packages = with pkgs; [
-      zathura
-      fontforge-gtk
-    ];
+    # packages = with pkgs; [];
     # file = {};
     # sessionVariables = {};
   };
@@ -43,5 +44,9 @@
       userEmail = "bswist@protonmail.com";
       extraConfig.init.defaultBranch = "main";
     };
+
+    fzf.enable = true;
+    zathura.enable = true;
+    tmux.enable = true;
   };
 }

@@ -1,6 +1,4 @@
-{ ... }:
-
-{
+{...}: {
   programs.waybar = {
     enable = true;
     style = ./style.css;
@@ -9,7 +7,7 @@
       position = "left";
       width = 25;
 
-      modules-left = [ "sway/workspaces" ];
+      modules-left = ["sway/workspaces"];
       # modules-center = [];
       modules-right = [
         "clock"
