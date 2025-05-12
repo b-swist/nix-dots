@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   imports = [
-    ../waybar
+    ./waybar
     ./foot.nix
   ];
 
