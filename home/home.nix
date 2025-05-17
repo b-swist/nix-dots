@@ -45,8 +45,15 @@
       extraConfig.init.defaultBranch = "main";
     };
 
+    direnv = {
+      enable = true;
+      enableBashIntegration = true;
+      nix-direnv.enable = true;
+    };
+
     fzf.enable = true;
     zathura.enable = true;
     tmux.enable = true;
+    firefox.enable = true;
   };
 }
