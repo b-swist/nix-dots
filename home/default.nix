@@ -15,7 +15,9 @@
     username = settings.username;
     homeDirectory = "/home/${settings.username}";
     stateVersion = "24.11";
-    # packages = with pkgs; [];
+    packages = with pkgs; [
+      tree
+    ];
     # file = {};
     # sessionVariables = {};
   };
@@ -35,8 +37,17 @@
     videos = "${home}/videos";
   };
 
+  services = {
+    ssh-agent.enable = true;
+  };
+
   programs = {
     home-manager.enable = true;
+
+    ssh = {
+      enable = true;
+      addKeysToAgent = "confirm";
+    };
 
     git = {
       enable = true;
@@ -51,7 +62,11 @@
       nix-direnv.enable = true;
     };
 
-    fzf.enable = true;
+    fzf = {
+      enable = true;
+      enableBashIntegration = true;
+    };
+
     zathura.enable = true;
     tmux.enable = true;
     firefox.enable = true;
