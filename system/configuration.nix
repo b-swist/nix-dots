@@ -44,6 +44,7 @@
     neovim
     wget
     gnumake
+    pavucontrol
   ];
 
   fonts.packages = with pkgs; [
