@@ -2,6 +2,7 @@
   pkgs,
   config,
   settings,
+  inputs,
   ...
 }: {
   imports = [
@@ -9,6 +10,7 @@
     ./bash.nix
     # ./firefox.nix
     ./river.nix
+    inputs.nix-nvim.homeModules.default
   ];
 
   home = {
@@ -39,6 +41,11 @@
 
   services = {
     ssh-agent.enable = true;
+  };
+
+  nixCats = {
+    enable = true;
+    packageNames = ["cvim"];
   };
 
   programs = {
