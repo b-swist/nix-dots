@@ -53,7 +53,10 @@
       enable = true;
       userName = "b-swist";
       userEmail = "bswist@protonmail.com";
-      extraConfig.init.defaultBranch = "main";
+      extraConfig = {
+        init.defaultBranch = "main";
+        core.editor = "nvim";
+      };
     };
 
     direnv = {
