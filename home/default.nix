@@ -4,7 +4,9 @@
   settings,
   inputs,
   ...
-}: {
+}: let
+  home = "/home/${settings.username}";
+in {
   imports = [
     ./sway.nix
     ./bash.nix
@@ -15,7 +17,7 @@
 
   home = {
     username = settings.username;
-    homeDirectory = "/home/${settings.username}";
+    homeDirectory = home;
     stateVersion = "24.11";
     packages = with pkgs; [
       tree
@@ -24,9 +26,7 @@
     # sessionVariables = {};
   };
 
-  xdg.userDirs = let
-    home = config.home.homeDirectory;
-  in {
+  xdg.userDirs = {
     enable = true;
     createDirectories = true;
     desktop = "${home}/desktop";
@@ -54,6 +54,13 @@
     ssh = {
       enable = true;
       addKeysToAgent = "confirm";
+      matchBlocks = {
+        "github.com" = {
+          hostname = "github.com";
+          user = "git";
+          identityFile = "${home}/.ssh/keys/github";
+        };
+      };
     };
 
     git = {
