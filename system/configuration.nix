@@ -23,10 +23,7 @@
 
   time.timeZone = "Europe/Warsaw";
   i18n.defaultLocale = "en_US.UTF-8";
-  console = {
-    font = "Lat2-Terminus16";
-    keyMap = "pl";
-  };
+  console.keyMap = "pl";
 
   users.users.${settings.username} = {
     isNormalUser = true;
@@ -47,7 +44,13 @@
   ];
 
   fonts.packages = with pkgs; [
-    nerd-fonts.commit-mono
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
+    nerd-fonts.symbols-only
+    twitter-color-emoji
+    liberation_ttf
+    maple-mono.truetype
   ];
 
   services = {

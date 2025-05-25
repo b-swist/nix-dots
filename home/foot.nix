@@ -4,7 +4,7 @@
     settings = {
       main = {
         locked-title = true;
-        font = "CommitMono Nerd Font:size=11";
+        font = "Maple Mono:size=11";
         pad = "10x6 center";
       };
       colors = {
