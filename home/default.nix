@@ -4,7 +4,9 @@
   settings,
   inputs,
   ...
-}: {
+}: let
+  home = "/home/${settings.username}";
+in {
   imports = [
     ./sway.nix
     ./bash.nix
@@ -15,7 +17,7 @@
 
   home = {
     username = settings.username;
-    homeDirectory = "/home/${settings.username}";
+    homeDirectory = home;
     stateVersion = "24.11";
     packages = with pkgs; [
       tree
@@ -24,9 +26,7 @@
     # sessionVariables = {};
   };
 
-  xdg.userDirs = let
-    home = config.home.homeDirectory;
-  in {
+  xdg.userDirs = {
     enable = true;
     createDirectories = true;
     desktop = "${home}/desktop";
@@ -39,10 +39,6 @@
     videos = "${home}/videos";
   };
 
-  services = {
-    ssh-agent.enable = true;
-  };
-
   nixCats = {
     enable = true;
     packageNames = ["cvim"];
@@ -50,11 +46,6 @@
 
   programs = {
     home-manager.enable = true;
-
-    ssh = {
-      enable = true;
-      addKeysToAgent = "confirm";
-    };
 
     git = {
       enable = true;
@@ -77,6 +68,7 @@
       enableBashIntegration = true;
     };
 
+    ssh.enable = true;
     zathura.enable = true;
     tmux.enable = true;
     firefox.enable = true;
