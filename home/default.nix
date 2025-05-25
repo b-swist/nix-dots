@@ -10,41 +10,46 @@ in {
     ./sway.nix
     ./bash.nix
     # ./firefox.nix
-    # ./river.nix
+    ./river
     inputs.nix-nvim.homeModules.default
   ];
 
   home = {
     inherit (settings) username;
     homeDirectory = home;
+    preferXdgDirectories = true;
     stateVersion = "24.11";
     packages = with pkgs; [
       tree
-      river
     ];
     # file = {};
     # sessionVariables = {};
   };
 
-  xdg.userDirs = {
+  xdg = {
     enable = true;
-    createDirectories = true;
-    desktop = "${home}/desktop";
-    documents = "${home}/documents";
-    download = "${home}/downloads";
-    music = "${home}/music";
-    pictures = "${home}/pictures";
-    templates = "${home}/templates";
-    publicShare = "${home}/public";
-    videos = "${home}/videos";
+    configHome = "${home}/.config";
+    cacheHome = "${home}/.cache";
+    dataHome = "${home}/.local/share";
+    stateHome = "${home}/.local/state";
+    userDirs = {
+      enable = true;
+      createDirectories = true;
+      desktop = "${home}/desktop";
+      documents = "${home}/documents";
+      download = "${home}/downloads";
+      music = "${home}/music";
+      pictures = "${home}/pictures";
+      templates = "${home}/templates";
+      publicShare = "${home}/public";
+      videos = "${home}/videos";
+    };
   };
 
   nixCats = {
     enable = true;
     packageNames = ["cvim"];
   };
-
-  services.mako.enable = true;
 
   programs = {
     home-manager.enable = true;
