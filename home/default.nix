@@ -1,6 +1,5 @@
 {
   pkgs,
-  config,
   settings,
   inputs,
   ...
@@ -16,7 +15,7 @@ in {
   ];
 
   home = {
-    username = settings.username;
+    inherit (settings) username;
     homeDirectory = home;
     stateVersion = "24.11";
     packages = with pkgs; [
