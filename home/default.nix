@@ -10,7 +10,7 @@ in {
     ./sway.nix
     ./bash.nix
     # ./firefox.nix
-    ./river.nix
+    # ./river.nix
     inputs.nix-nvim.homeModules.default
   ];
 
@@ -20,6 +20,7 @@ in {
     stateVersion = "24.11";
     packages = with pkgs; [
       tree
+      river
     ];
     # file = {};
     # sessionVariables = {};
@@ -42,6 +43,8 @@ in {
     enable = true;
     packageNames = ["cvim"];
   };
+
+  services.mako.enable = true;
 
   programs = {
     home-manager.enable = true;

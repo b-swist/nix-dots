@@ -51,11 +51,11 @@
         "plugins-spaceduck": "plugins-spaceduck"
       },
       "locked": {
-        "lastModified": 1748040154,
-        "narHash": "sha256-F+wEOKLHoF42kbLIPYqw+8sFhyVJBeB6mIAgZlPSKBA=",
+        "lastModified": 1748178839,
+        "narHash": "sha256-TqTcWoBcsZ4ZHTbdnRWhmz5y7UiRMVTGHP9p4FTisLk=",
         "owner": "b-swist",
         "repo": "nix-nvim",
-        "rev": "6a996985105e66b745e3f94e89a8a8b6fdc16384",
+        "rev": "da234ba78ad02e4841c459db773c7e3d4738d66c",
         "type": "github"
       },
       "original": {

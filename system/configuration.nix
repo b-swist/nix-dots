@@ -1,6 +1,4 @@
 {
-  config,
-  lib,
   pkgs,
   settings,
   ...
@@ -45,6 +43,7 @@
     wget
     gnumake
     pavucontrol
+    libnotify
   ];
 
   fonts.packages = with pkgs; [
