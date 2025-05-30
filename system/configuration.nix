@@ -34,7 +34,11 @@
   security.polkit.enable = true;
   hardware.graphics.enable = true;
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    input-fonts.acceptLicense = true;
+  };
+
   environment.systemPackages = with pkgs; [
     neovim
     wget
@@ -50,7 +54,7 @@
     nerd-fonts.symbols-only
     twitter-color-emoji
     liberation_ttf
-    maple-mono.truetype
+    input-fonts
   ];
 
   services = {
