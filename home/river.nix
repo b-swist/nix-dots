@@ -53,7 +53,16 @@
       ];
       default-layout = "rivertile";
 
-      map = {
+      map = let
+        mediaKeysBinds = {
+          "None XF86AudioMute" = "spawn '${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle'";
+          "None XF86AudioLowerVolume" = "spawn '${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%- -l 1'";
+          "None XF86AudioRaiseVolume" = "spawn '${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1'";
+          "None XF86AudioNext" = "spawn '${playerctl} next'";
+          "None XF86AudioPlay" = "spawn '${playerctl} play-pause'";
+          "None XF86AudioPrev" = "spawn '${playerctl} previous'";
+        };
+      in {
         normal =
           {
             "Super Q" = "close";
@@ -80,14 +89,9 @@
             "Super+Shift+Control K" = "send-layout-cmd ${rivertile} 'main-location top'";
             "Super+Shift+Control L" = "send-layout-cmd ${rivertile} 'main-location right'";
 
-            "None XF86AudioMute" = "spawn '${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle'";
-            "None XF86AudioLowerVolume" = "spawn '${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%- -l 1'";
-            "None XF86AudioRaiseVolume" = "spawn '${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1'";
-            "None XF86AudioNext" = "spawn '${playerctl} next'";
-            "None XF86AudioPlay" = "spawn '${playerctl} play-pause'";
-            "None XF86AudioPrev" = "spawn '${playerctl} previous'";
-            "None Print" = "spawn 'slurp | grim -g - - | wl-copy && notify-send \"Screenshot taken\"'";
+            "None Print" = "spawn '${slurp} | ${grim} -g - - | ${wl-copy} && ${notify-send} \"Screenshot taken\"'";
           }
+          // mediaKeysBinds
           // (
             let
               pow = a: n:
@@ -98,8 +102,8 @@
                 else a * pow a (n - 1);
 
               tag = n: toString (pow 2 (n - 1));
+              allTags = toString (pow 2 9 - 1);
               scratchTag = tag 10;
-              allTags = toString (pow 2 32 - (pow 2 9 + 1));
             in
               {
                 "Super Minus" = "toggle-focused-tags ${scratchTag}";
@@ -120,6 +124,7 @@
                 )
               )
           );
+        locked = mediaKeysBinds;
       };
 
       map-pointer.normal = {
