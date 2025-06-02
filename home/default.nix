@@ -4,7 +4,7 @@
   inputs,
   ...
 }: let
-  home = "/home/${settings.username}";
+  homeDirectory = "/home/${settings.username}";
 in {
   imports = [
     ./sway.nix
@@ -16,11 +16,12 @@ in {
 
   home = {
     inherit (settings) username;
-    homeDirectory = home;
+    inherit homeDirectory;
     preferXdgDirectories = true;
     stateVersion = "24.11";
     packages = with pkgs; [
       tree
+      openssh
     ];
     # file = {};
     # sessionVariables = {};
@@ -28,21 +29,21 @@ in {
 
   xdg = {
     enable = true;
-    configHome = "${home}/.config";
-    cacheHome = "${home}/.cache";
-    dataHome = "${home}/.local/share";
-    stateHome = "${home}/.local/state";
+    configHome = "${homeDirectory}/.config";
+    cacheHome = "${homeDirectory}/.cache";
+    dataHome = "${homeDirectory}/.local/share";
+    stateHome = "${homeDirectory}/.local/state";
     userDirs = {
       enable = true;
       createDirectories = true;
-      desktop = "${home}/desktop";
-      documents = "${home}/documents";
-      download = "${home}/downloads";
-      music = "${home}/music";
-      pictures = "${home}/pictures";
-      templates = "${home}/templates";
-      publicShare = "${home}/public";
-      videos = "${home}/videos";
+      desktop = "${homeDirectory}/desktop";
+      documents = "${homeDirectory}/documents";
+      download = "${homeDirectory}/downloads";
+      music = "${homeDirectory}/music";
+      pictures = "${homeDirectory}/pictures";
+      templates = "${homeDirectory}/templates";
+      publicShare = "${homeDirectory}/public";
+      videos = "${homeDirectory}/videos";
     };
   };
 
@@ -75,7 +76,6 @@ in {
       enableBashIntegration = true;
     };
 
-    ssh.enable = true;
     zathura.enable = true;
     tmux.enable = true;
     firefox.enable = true;

@@ -4,7 +4,7 @@
     settings = {
       main = {
         locked-title = true;
-        font = "Input Mono:size=12";
+        font = "Input Mono:size=11";
         pad = "10x6 center";
       };
       colors = {
