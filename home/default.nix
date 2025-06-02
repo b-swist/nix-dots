@@ -7,10 +7,10 @@
   homeDirectory = "/home/${settings.username}";
 in {
   imports = [
-    ./sway.nix
+    # ./sway.nix
     ./bash.nix
     # ./firefox.nix
-    ./river
+    ./river.nix
     inputs.nix-nvim.homeModules.default
   ];
 

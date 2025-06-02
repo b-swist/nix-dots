@@ -4,9 +4,18 @@
   lib,
   ...
 }: {
+  imports = [./foot.nix];
+
   home.packages = with pkgs; [
     river
     wbg
+
+    wl-clipboard
+    slurp
+    grim
+
+    libnotify
+    playerctl
   ];
 
   programs.bash.profileExtra = ''
@@ -18,8 +27,19 @@
   services.mako.enable = true;
 
   wayland.windowManager.river = let
+    term = "${pkgs.foot}/bin/foot";
+    browser = "${pkgs.firefox}/bin/firefox";
+
     rivertile = "${pkgs.river}/bin/rivertile";
-    firefox = "${pkgs.firefox}/bin/firefox";
+    wbg = "${pkgs.wbg}/bin/wbg";
+
+    grim = "${pkgs.grim}/bin/grim";
+    slurp = "${pkgs.slurp}/bin/slurp";
+
+    notify-send = "${pkgs.libnotify}/bin/notify-send";
+    wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
+    wpctl = "${pkgs.wireplumber}/bin/wpctl";
+    playerctl = "${pkgs.playerctl}/bin/playerctl";
   in {
     enable = true;
     settings = {
@@ -28,7 +48,7 @@
       border-width = 0;
 
       spawn = [
-        "'wbg ${config.xdg.userDirs.pictures}/something.jpg'"
+        "'${wbg} ${config.xdg.userDirs.pictures}/something.jpg'"
         rivertile
       ];
       default-layout = "rivertile";
@@ -38,8 +58,8 @@
           {
             "Super Q" = "close";
             "Super+Shift Q" = "exit";
-            "Super Return" = "spawn foot";
-            "Super B" = "spawn ${firefox}";
+            "Super Return" = "spawn ${term}";
+            "Super B" = "spawn ${browser}";
 
             "Super+Shift Return" = "zoom";
             "Super F" = "toggle-fullscreen";
@@ -60,12 +80,13 @@
             "Super+Shift+Control K" = "send-layout-cmd ${rivertile} 'main-location top'";
             "Super+Shift+Control L" = "send-layout-cmd ${rivertile} 'main-location right'";
 
-            "None XF86AudioMute" = "spawn 'wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle'";
-            "None XF86AudioLowerVolume" = "spawn 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- -l 1'";
-            "None XF86AudioRaiseVolume" = "spawn 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1'";
-            "None XF86AudioNext" = "spawn 'playerctl next'";
-            "None XF86AudioPlay" = "spawn 'playerctl play-pause'";
-            "None XF86AudioPrev" = "spawn 'playerctl previous'";
+            "None XF86AudioMute" = "spawn '${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle'";
+            "None XF86AudioLowerVolume" = "spawn '${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%- -l 1'";
+            "None XF86AudioRaiseVolume" = "spawn '${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1'";
+            "None XF86AudioNext" = "spawn '${playerctl} next'";
+            "None XF86AudioPlay" = "spawn '${playerctl} play-pause'";
+            "None XF86AudioPrev" = "spawn '${playerctl} previous'";
+            "None Print" = "spawn 'slurp | grim -g - - | wl-copy && notify-send \"Screenshot taken\"'";
           }
           // (
             let
