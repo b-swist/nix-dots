@@ -5,10 +5,15 @@
 }: {
   imports = [./hardware-configuration.nix];
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings = {
+    auto-optimise-store = true;
+    use-xdg-base-directories = true;
+    experimental-features = [
+      "nix-command"
+      "flakes"
+      "pipe-operators"
+    ];
+  };
 
   boot.loader = {
     systemd-boot.enable = true;
