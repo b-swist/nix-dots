@@ -10,6 +10,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     # firefox-addons = {
     #   url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     #   inputs.nixpkgs.follows = "nixpkgs";
@@ -25,6 +31,7 @@
     self,
     nixpkgs,
     home-manager,
+    nix-on-droid,
     ...
   } @ inputs: let
     settings = {
@@ -41,7 +48,7 @@
       ${settings.hostname} = nixpkgs.lib.nixosSystem {
         inherit (settings) system;
         specialArgs = {inherit settings;};
-        modules = [./system/configuration.nix];
+        modules = [./system/desktop/configuration.nix];
       };
     };
 
@@ -49,7 +56,14 @@
       ${settings.username} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {inherit inputs settings;};
-        modules = [./home];
+        modules = [./home/desktop];
+      };
+    };
+
+    nixOnDroidConfigurations = {
+      default = nix-on-droid.lib.nixOnDroidConfiguration {
+        pkgs = import nixpkgs {system = "aarch64-linux";};
+        modules = [./system/andorid/configuration.nix];
       };
     };
   };
