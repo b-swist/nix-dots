@@ -6,7 +6,6 @@
     termux-setup-storage.enable = true;
   };
 
-  nixpkgs.config.allowUnfree = true;
   environment = {
     packages = with pkgs; [
       neovim
