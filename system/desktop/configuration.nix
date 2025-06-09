@@ -39,6 +39,11 @@
   security.polkit.enable = true;
   hardware.graphics.enable = true;
 
+  nixpkgs.config = {
+    allowUnfree = true;
+    input-fonts.acceptLicense = true;
+  };
+
   environment.systemPackages = with pkgs; [
     neovim
     wget
@@ -47,7 +52,6 @@
     libnotify
   ];
 
-  nixpkgs.config.input-fonts.acceptLicense = true;
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk-sans

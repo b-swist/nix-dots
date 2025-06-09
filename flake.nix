@@ -39,10 +39,7 @@
       hostname = "strontium-pc";
       username = "anon";
     };
-    pkgs = import nixpkgs {
-      inherit (settings) system;
-      config.allowUnfree = true;
-    };
+    pkgs = import nixpkgs {inherit (settings) system;};
   in {
     nixosConfigurations = {
       ${settings.hostname} = nixpkgs.lib.nixosSystem {
