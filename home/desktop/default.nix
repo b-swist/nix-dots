@@ -11,6 +11,7 @@ in {
     ./bash.nix
     # ./firefox.nix
     ./river.nix
+    ./git.nix
     inputs.nix-nvim.homeModules.default
   ];
 
@@ -54,16 +55,6 @@ in {
 
   programs = {
     home-manager.enable = true;
-
-    git = {
-      enable = true;
-      userName = "b-swist";
-      userEmail = "bswist@protonmail.com";
-      extraConfig = {
-        init.defaultBranch = "main";
-        core.editor = "nvim";
-      };
-    };
 
     direnv = {
       enable = true;
