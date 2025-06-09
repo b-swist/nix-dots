@@ -43,7 +43,8 @@
     description = "Workaround for Gigabyte B550 suspend bug";
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "/bin/sh -c \"echo GPP0 > /proc/acpi/wakeup\"";
+      RemainAfterExit = true;
+      ExecStart = "/bin/sh -c 'echo GPP0 > /proc/acpi/wakeup'";
     };
     wantedBy = ["multi-user.target"];
   };
