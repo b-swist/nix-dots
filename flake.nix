@@ -36,7 +36,7 @@
   } @ inputs: let
     settings = {
       system = "x86_64-linux";
-      hostname = "strontium-pc";
+      hostname = "strontium";
       username = "anon";
     };
     pkgs = import nixpkgs {inherit (settings) system;};
