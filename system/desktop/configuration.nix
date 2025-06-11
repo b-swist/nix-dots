@@ -20,6 +20,12 @@
       enable = true;
       editor = false;
       configurationLimit = 5;
+      edk2-uefi-shell.enable = true;
+      extraEntries."arch.conf" = ''
+        title Arch
+        efi /EFI/edk2-uefi-shell/shell.efi
+        options -nointerrupt -nomap -noversion FS0:EFI\arch-linux\grubx64.efi
+      '';
     };
     efi.canTouchEfiVariables = true;
   };
