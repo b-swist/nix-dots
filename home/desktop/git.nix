@@ -16,7 +16,7 @@
     extraConfig = {
       init.defaultBranch = "main";
       core.editor = "nvim";
-      merge.conflictStyle = "kdiff3";
+      merge.conflictStyle = "diff3";
       push.autoSetupRemote = true;
       help.autocorrect = "prompt";
       branch.sort = "-committerdate";
