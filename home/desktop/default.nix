@@ -15,6 +15,7 @@ in {
     inputs.nix-nvim.homeModules.default
   ];
 
+  nixpkgs.config.permittedInsecurePackages = ["xpdf-4.05"];
   home = {
     inherit (settings) username;
     inherit homeDirectory;
