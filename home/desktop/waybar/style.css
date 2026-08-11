@@ -1,9 +1,0 @@
-      * {
-        all: unset;
-      }
-
-      window#waybar {
-        background-color: #000000;
-        color: #ffffff;
-      }
-

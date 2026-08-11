@@ -3,65 +3,96 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    # nixpkgs-stable.url = "nixpkgs/nixos-24.11";
+    # nixpkgs-stable.url = "nixpkgs/nixos-26.05";
 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-on-droid = {
-      url = "github:nix-community/nix-on-droid/release-24.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
+    dotfiles = {
+      url = "github:b-swist/dots";
+      flake = false;
     };
 
-    # firefox-addons = {
-    #   url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
-    nix-nvim = {
-      url = "github:b-swist/nix-nvim";
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    pedantix = {
+      url = "github:Swarsel/pedantix";
+      inputs = {
+        flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+        nixpkgs.follows = "nixpkgs";
+        treefmt-nix.follows = "treefmt-nix";
+      };
     };
   };
 
   outputs = {
     self,
-    nixpkgs,
     home-manager,
-    nix-on-droid,
+    nix-index-database,
+    nixpkgs,
+    treefmt-nix,
     ...
-  } @ inputs: let
-    settings = {
-      system = "x86_64-linux";
-      hostname = "strontium";
-      username = "anon";
+  } @ inputs:
+   let
+    system = "x86_64-linux";
+    pkgs = import nixpkgs {
+      inherit system;
+      config = {
+        allowUnfree = true;
+        input-fonts.acceptLicense = true;
+      };
+      overlays = [
+        self.overlays.default
+      ];
+
+      programs.nix-index.package =
+        nix-index-database.packages.${system}.nix-index-with-small-db;
     };
-    pkgs = import nixpkgs {inherit (settings) system;};
   in {
-    nixosConfigurations = {
-      ${settings.hostname} = nixpkgs.lib.nixosSystem {
-        inherit (settings) system;
-        specialArgs = {inherit settings;};
-        modules = [./system/desktop/configuration.nix];
+    overlays.default = final: prev: import ./pkgs {inherit final prev;};
+    nixosModules.default = import ./modules;
+
+    formatter.${system} = treefmt-nix.lib.mkWrapper pkgs {
+      imports = [inputs.pedantix.treefmtModules.default];
+      projectRootFile = "flake.nix";
+      programs.pedantix = {
+        enable = true;
+        settings = {
+          preset = "nixos-module";
+          attrs = {
+            sort = false;
+            flatten = true;
+            merge = true;
+          };
+        };
       };
     };
 
-    homeConfigurations = {
-      ${settings.username} = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = {inherit inputs settings;};
-        modules = [./home/desktop];
-      };
+    nixosConfigurations.rubidium = nixpkgs.lib.nixosSystem {
+      inherit pkgs;
+      modules = [
+        ./configuration.nix
+        self.nixosModules.default
+      ];
     };
 
-    nixOnDroidConfigurations = {
-      default = nix-on-droid.lib.nixOnDroidConfiguration {
-        pkgs = import nixpkgs {system = "aarch64-linux";};
-        modules = [./system/andorid/configuration.nix];
-      };
+    homeConfigurations.snowy = home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
+      modules = [
+        ./home-manager.nix
+        nix-index-database.homeModules.default
+      ];
+      extraSpecialArgs = {inherit inputs;};
     };
   };
 }
