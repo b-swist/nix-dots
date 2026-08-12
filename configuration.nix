@@ -51,6 +51,11 @@ in
   };
 
   services = {
+    displayManager = {
+      enable = true;
+      ly.enable = true;
+    };
+
     dbus.implementation = "broker";
     printing.enable = true;
     libinput.enable = true;

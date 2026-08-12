@@ -6,7 +6,11 @@
 let
   browser = lib.getExe pkgs.firefox;
   terminal = lib.getExe pkgs.foot;
-  launcher = "${terminal} -e ${lib.getExe pkgs.runny}";
+  launcher = [
+    terminal
+    "-e"
+    (lib.getExe pkgs.runny)
+  ];
 in
 {
   wayland.windowManager.niri = {
@@ -93,14 +97,7 @@ in
 
       binds =
         let
-          capitalize =
-            str:
-            let
-              len = lib.stringLength str;
-              fst = lib.toUpper (lib.substring 0 1 str);
-              rest = lib.substring 1 (len - 1) str;
-            in
-            fst + rest;
+          brightnessctl = lib.getExe pkgs.brightnessctl;
 
           mkMediaBind = args: {
             _props.allow-when-locked = true;
@@ -112,15 +109,10 @@ in
             ${action} = { };
           };
 
-          mkLaunchBind =
-            app:
-            {
-              title ? null,
-            }:
-            {
-              _props.hotkey-overlay-title = if title != null then title else "Open ${capitalize app}";
-              spawn = app;
-            };
+          mkLaunchBind = app: title: {
+            _props.hotkey-overlay-title = title;
+            spawn = app;
+          };
         in
         {
           "Mod+Shift+Slash".show-hotkey-overlay = { };
@@ -175,9 +167,9 @@ in
             toggle-overview = { };
           };
 
-          "Mod+Return" = mkLaunchBind terminal { };
-          "Mod+B" = mkLaunchBind browser { };
-          "Mod+E" = mkLaunchBind launcher { };
+          "Mod+Return" = mkLaunchBind terminal "Open Terminal";
+          "Mod+B" = mkLaunchBind browser "Open Browser";
+          "Mod+E" = mkLaunchBind launcher "Open Launcher";
 
           "Mod+H".focus-column-left = { };
           "Mod+J".focus-window-down = { };
@@ -254,7 +246,7 @@ in
           ];
 
           "XF86MonBrightnessDown" = mkMediaBind [
-            "${pkgs.brightnessctl}/bin/brightnessctl"
+            brightnessctl
             "-c"
             "backlight"
             "-n"
@@ -262,7 +254,7 @@ in
             "10%-"
           ];
           "XF86MonBrightnessUp" = mkMediaBind [
-            "${pkgs.brightnessctl}/bin/brightnessctl"
+            brightnessctl
             "-c"
             "backlight"
             "set"

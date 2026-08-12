@@ -1,13 +1,13 @@
 {
-  stdenv,
   lib,
-  fetchFromCodeberg,
-  makeWrapper,
   bash,
   coreutils,
-  gnugrep,
-  findutils,
   diffutils,
+  fetchFromCodeberg,
+  findutils,
+  gnugrep,
+  makeWrapper,
+  stdenv,
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "doasedit";
@@ -23,24 +23,24 @@ stdenv.mkDerivation (finalAttrs: {
   strictDeps = true;
   __structuredAttrs = true;
 
-  nativeBuildInputs = [makeWrapper];
+  nativeBuildInputs = [ makeWrapper ];
 
   dontBuild = true;
   dontConfigure = true;
 
-  installFlags = ["PREFIX=${placeholder "out"}"];
+  installFlags = [ "PREFIX=${placeholder "out"}" ];
 
   postInstall = ''
     wrapProgram $out/bin/doasedit \
       --prefix PATH : ${
-      lib.makeBinPath [
-        bash
-        coreutils
-        gnugrep
-        findutils
-        diffutils
-      ]
-    }
+        lib.makeBinPath [
+          bash
+          coreutils
+          gnugrep
+          findutils
+          diffutils
+        ]
+      }
   '';
 
   meta = {

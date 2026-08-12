@@ -1,11 +1,13 @@
 {
-  pkgs,
   config,
+  pkgs,
   ...
-}: let
+}:
+let
   username = "snowy";
   homeDirectory = "/home/${username}";
-in {
+in
+{
   imports = [
     ./foot.nix
     ./git.nix
@@ -20,11 +22,8 @@ in {
     preferXdgDirectories = true;
     stateVersion = "26.05";
     packages = with pkgs; [
-      tree
       openssh
     ];
-    # file = {};
-    # sessionVariables = {};
   };
 
   xdg = {
@@ -52,8 +51,10 @@ in {
       # bashrcExtra = builtins.readFile "${dotfiles}/bashrc";
     };
 
+    runny.enable = true;
     ripgrep.enable = true;
     fd.enable = true;
+    tree.enable = true;
 
     readline = {
       enable = true;
@@ -103,6 +104,8 @@ in {
       mouse = true;
       shortcut = "b";
     };
+
+    brightnessctl.enable = true;
 
     firefox.enable = true;
     zathura.enable = true;

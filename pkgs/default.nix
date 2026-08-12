@@ -1,4 +1,4 @@
-{final, ...}: {
-  doasedit = final.callPackage ./doasedit {};
-  runny = final.callPackage ./runny {};
+{ final, ... }: {
+  doasedit = final.callPackage ./doasedit { };
+  runny = final.callPackage ./runny { };
 }
