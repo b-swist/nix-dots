@@ -81,10 +81,13 @@ in
     nh.enable = true;
   };
 
-  environment.systemPackages = with pkgs; [
-    wget
-    acpi
-  ];
+  environment = {
+    variables.MOZ_USE_XINPUT2 = 1;
+    systemPackages = with pkgs; [
+      wget
+      acpi
+    ];
+  };
 
   fonts.packages = with pkgs; [
     noto-fonts

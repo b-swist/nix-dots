@@ -16,9 +16,7 @@ let
         package = lib.mkPackageOption pkgs name { };
       };
 
-      config = lib.mkIf cfg.enable {
-        home.packages = [ cfg.package ];
-      };
+      config = lib.mkIf cfg.enable { home.packages = [ cfg.package ]; };
     };
 in
 {

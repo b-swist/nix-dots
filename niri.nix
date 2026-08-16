@@ -1,8 +1,4 @@
-{
-  lib,
-  pkgs,
-  ...
-}:
+{ lib, pkgs, ... }:
 let
   browser = lib.getExe pkgs.firefox;
   terminal = lib.getExe pkgs.foot;
@@ -13,6 +9,8 @@ let
   ];
 in
 {
+  home.packages = with pkgs; [ wl-clipboard ];
+
   wayland.windowManager.niri = {
     enable = true;
     settings = {

@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}:
+{ config, pkgs, ... }:
 let
   username = "snowy";
   homeDirectory = "/home/${username}";
@@ -21,9 +17,7 @@ in
     inherit homeDirectory;
     preferXdgDirectories = true;
     stateVersion = "26.05";
-    packages = with pkgs; [
-      openssh
-    ];
+    packages = with pkgs; [ openssh ];
   };
 
   xdg = {

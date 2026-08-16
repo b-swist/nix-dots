@@ -25,7 +25,6 @@
     pedantix = {
       url = "github:Swarsel/pedantix";
       inputs = {
-        flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
         nixpkgs.follows = "nixpkgs";
         treefmt-nix.follows = "treefmt-nix";
       };
@@ -49,9 +48,7 @@
           allowUnfree = true;
           input-fonts.acceptLicense = true;
         };
-        overlays = [
-          self.overlays.default
-        ];
+        overlays = [ self.overlays.default ];
       };
     in
     {
@@ -64,6 +61,16 @@
         projectRootFile = "flake.nix";
         programs.pedantix = {
           enable = true;
+          package = pkgs.symlinkJoin {
+            name = "pedantix";
+            paths = [ pkgs.pedantix ];
+            nativeBuildInputs = [ pkgs.makeWrapper ];
+            postBuild = ''
+              wrapProgram $out/bin/pedantix \
+                --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.nixfmt ]}
+            '';
+            meta.mainProgram = "pedantix";
+          };
           settings = {
             preset = "nixos-module";
             attrs = {

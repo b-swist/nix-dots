@@ -13,7 +13,5 @@ in
     package = lib.mkPackageOption pkgs "doasedit" { };
   };
 
-  config = lib.mkIf cfg.enable {
-    environment.systemPackages = [ cfg.package ];
-  };
+  config = lib.mkIf cfg.enable { environment.systemPackages = [ cfg.package ]; };
 }

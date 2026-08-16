@@ -1,5 +1,1 @@
-{
-  imports = [
-    ./doasedit.nix
-  ];
-}
+{ imports = [ ./doasedit.nix ]; }

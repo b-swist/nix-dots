@@ -56,9 +56,7 @@
     };
   };
 
-  swapDevices = [
-    { device = "/dev/disk/by-uuid/155d4c6c-7138-4e79-9e99-7f74be6e4acd"; }
-  ];
+  swapDevices = [ { device = "/dev/disk/by-uuid/155d4c6c-7138-4e79-9e99-7f74be6e4acd"; } ];
 
   hardware = {
     enableRedistributableFirmware = true;
@@ -66,7 +64,8 @@
     bluetooth.enable = true;
     trackpoint = {
       enable = true;
-      drift_time = 25;
+      sensitivity = 100;
+      # drift_time = 25;
     };
   };
 }
