@@ -7,32 +7,31 @@
   ...
 }:
 let
-  inherit (lib) types mkOption;
+  inherit (lib)
+    types
+    mkOption
+    mapAttrsToList
+    mkDefault
+    ;
 
   mkSystem =
-    host:
-    {
-      extraModules,
-      stateVersion,
-      system,
-      users,
-    }:
+    host: attrs:
     let
       defaultHostModule = {
-        system = { inherit stateVersion; };
-        hardware.enableRedistributableFirmware = lib.mkDefault true;
-        networking.hostName = lib.mkDefault host;
-        nixpkgs.pkgs = withSystem system ({ pkgs, ... }: pkgs);
+        system = { inherit (attrs) stateVersion; };
+        hardware.enableRedistributableFirmware = mkDefault true;
+        networking.hostName = mkDefault attrs.hostname;
+        nixpkgs.pkgs = withSystem attrs.system ({ pkgs, ... }: pkgs);
       };
 
       mkUserModule = user: cfg: {
         users.users.${user} = {
-          isNormalUser = lib.mkDefault true;
+          isNormalUser = mkDefault true;
         }
         // cfg;
       };
 
-      userModules = lib.mapAttrsToList (user: cfg: mkUserModule user cfg) users;
+      userModules = mapAttrsToList (user: cfg: mkUserModule user cfg) attrs.users;
     in
     inputs.nixpkgs.lib.nixosSystem {
       modules = [
@@ -41,30 +40,36 @@ let
         inputs.nixpkgs.nixosModules.readOnlyPkgs
       ]
       ++ userModules
-      ++ extraModules;
+      ++ attrs.extraModules;
     };
 
-  hostsSubmodule = types.submodule {
-    options = {
-      extraModules = mkOption {
-        type = types.listOf types.deferredModule;
-        default = [ ];
-        description = "Extra modules to include for this host";
+  hostsSubmodule = types.submodule (
+    { name, ... }: {
+      options = {
+        extraModules = mkOption {
+          type = with types; listOf deferredModule;
+          default = [ ];
+          description = "Extra modules to include for this host";
+        };
+        users = mkOption {
+          type = types.attrs;
+          default = { };
+        };
+        stateVersion = mkOption {
+          type = types.str;
+          default = null;
+        };
+        system = mkOption {
+          type = types.str;
+          default = "x86_64-linux";
+        };
+        hostname = mkOption {
+          type = types.str;
+          default = name;
+        };
       };
-      users = mkOption {
-        type = types.attrs;
-        default = { };
-      };
-      stateVersion = mkOption {
-        type = types.str;
-        default = null;
-      };
-      system = mkOption {
-        type = types.str;
-        default = "x86_64-linux";
-      };
-    };
-  };
+    }
+  );
 in
 {
   options.nixosHosts = mkOption {
