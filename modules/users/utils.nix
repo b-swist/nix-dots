@@ -2,6 +2,7 @@
   config,
   lib,
   inputs,
+  withSystem,
   ...
 }:
 let
@@ -14,35 +15,53 @@ let
     ;
 
   mkHome =
-    user: attrs: pkgs:
+    user: host: userCfg: hostCfg:
     let
+      system = config.nixosHosts.${host}.system;
+
       defaultHomeModule = {
         home = {
-          inherit (attrs) stateVersion;
+          inherit (hostCfg) stateVersion;
           username = user;
           homeDirectory = "/home/${user}";
         };
         programs = {
           home-manager.enable = true;
           git.settings.user = mkMerge [
-            (mkIf (attrs.name != null) { name = mkDefault attrs.name; })
-            (mkIf (attrs.email != null) { email = mkDefault attrs.email; })
+            (mkIf (userCfg.name != null) { name = mkDefault userCfg.name; })
+            (mkIf (userCfg.email != null) { email = mkDefault userCfg.email; })
           ];
         };
       };
     in
     inputs.home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
+      pkgs = withSystem system ({ pkgs, ... }: pkgs);
+      extraSpecialArgs.osConfig = config.flake.nixosConfigurations.${host}.config;
       modules = [
         defaultHomeModule
         # (self.homeModules.${user} or null)
         # self.homeModules.${user}
       ]
-      ++ attrs.extraModules;
+      ++ hostCfg.extraModules;
     };
 
-  usersSubmodule = types.submodule (
-    { name, ... }: {
+  perHostUserSubmodule = types.submodule {
+    options = {
+      stateVersion = mkOption {
+        type = types.str;
+        example = "26.05";
+      };
+      extraModules = mkOption {
+        type = types.listOf types.deferredModule;
+        default = [ ];
+        description = "Extra modules to include for this host";
+      };
+    };
+  };
+
+  userSubmodule = types.submodule (
+    { name, ... }:
+    {
       options = {
         name = mkOption {
           type = types.str;
@@ -53,14 +72,9 @@ let
           example = "alice@example.com";
           default = null;
         };
-        stateVersion = mkOption {
-          type = types.str;
-          example = "26.05";
-        };
-        extraModules = mkOption {
-          type = types.listOf types.deferredModule;
-          default = [ ];
-          description = "Extra modules to include for this host";
+        hosts = mkOption {
+          type = types.attrsOf perHostUserSubmodule;
+          default = { };
         };
       };
     }
@@ -68,13 +82,15 @@ let
 in
 {
   options.homeUsers = mkOption {
-    type = types.attrsOf usersSubmodule;
+    type = types.attrsOf userSubmodule;
     default = { };
   };
 
-  config.perSystem = { pkgs, ... }: {
-    legacyPackages.homeConfigurations = builtins.mapAttrs (
-      host: cfg: mkHome host cfg pkgs
-    ) config.homeUsers;
-  };
+  config.flake.homeConfigurations = lib.concatMapAttrs (
+    user: userCfg:
+    lib.mapAttrs' (
+      host: hostCfg: lib.nameValuePair "${user}@${host}" (mkHome user host userCfg hostCfg)
+    ) userCfg.hosts
+  ) config.homeUsers;
+  # config.flake.homeConfigurations = builtins.mapAttrs (user: cfg: mkHome user cfg) config.homeUsers;
 }
