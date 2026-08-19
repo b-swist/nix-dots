@@ -15,6 +15,9 @@
       udisks2.enable = lib.mkDefault true;
       libinput.enable = lib.mkDefault true;
     };
+
+    hardware.graphics.enable = true;
+
     fonts.packages = with pkgs; [
       noto-fonts
       noto-fonts-cjk-sans

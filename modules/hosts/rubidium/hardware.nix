@@ -60,7 +60,6 @@
     swapDevices = [ { device = "/dev/disk/by-uuid/155d4c6c-7138-4e79-9e99-7f74be6e4acd"; } ];
 
     hardware = {
-      enableRedistributableFirmware = true;
       cpu.intel.updateMicrocode = true;
       bluetooth.enable = true;
       trackpoint = {
