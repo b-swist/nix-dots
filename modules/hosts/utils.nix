@@ -20,6 +20,7 @@ let
     let
       defaultHostModule = {
         system = { inherit stateVersion; };
+        hardware.enableRedistributableFirmware = lib.mkDefault true;
         networking.hostName = lib.mkDefault host;
         nixpkgs.pkgs = withSystem system ({ pkgs, ... }: pkgs);
       };
