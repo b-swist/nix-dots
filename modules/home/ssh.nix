@@ -1,6 +1,12 @@
 {
   flake.homeModules.ssh =
-    { lib, pkgs, osConfig,  config, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      osConfig,
+      ...
+    }:
     {
       programs.ssh = {
         enable = true;

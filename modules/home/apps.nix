@@ -1,5 +1,5 @@
 {
-  flake.homeModules.apps = {pkgs, ...}: {
+  flake.homeModules.apps = { pkgs, ... }: {
     home.packages = with pkgs; [
       tree
     ];

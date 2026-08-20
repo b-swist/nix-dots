@@ -1,11 +1,14 @@
 { inputs, ... }: {
+
   imports = [
     inputs.treefmt-nix.flakeModule
     inputs.pedantix.flakeModules.default
   ];
+
   perSystem = { pkgs, ... }: {
     treefmt.programs.pedantix = {
       enable = true;
+
       package = pkgs.symlinkJoin {
         name = "pedantix";
         paths = [ pkgs.pedantix ];
@@ -16,6 +19,7 @@
         '';
         meta.mainProgram = "pedantix";
       };
+
       settings = {
         preset = "nixos-module";
         attrs = {
@@ -23,6 +27,19 @@
           flatten = true;
           merge = true;
         };
+        overrides =
+          let
+            unflattened = [
+              "homeUsers"
+              "nixosHosts"
+              "flake.homeModules"
+              "flake.nixosModules"
+            ];
+          in
+          map (path: {
+            path = path + ".*";
+            attrs.flatten = false;
+          }) unflattened;
       };
     };
   };
