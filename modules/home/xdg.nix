@@ -5,6 +5,8 @@
       home = config.home.homeDirectory;
     in
     {
+      home.preferXdgDirectories = true;
+
       xdg = {
         enable = true;
 

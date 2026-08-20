@@ -7,6 +7,8 @@
       extraModules = with self.homeModules; [
         xdg
         shell
+        ssh
+        apps
         gpg
         git
         niri
