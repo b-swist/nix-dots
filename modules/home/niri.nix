@@ -11,7 +11,7 @@
       launcher = [
         terminal
         "-e"
-        (lib.getExe pkgs.runny)
+        # (lib.getExe pkgs.runny)
       ];
     in
     {
