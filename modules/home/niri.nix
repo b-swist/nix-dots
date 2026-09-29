@@ -1,4 +1,4 @@
-{ self, ... }: {
+{ pkgs, self, ... }: {
   flake.homeModules.niri =
     {
       lib,
@@ -6,12 +6,15 @@
       ...
     }:
     let
+    in
+    let
       browser = lib.getExe pkgs.firefox;
       terminal = lib.getExe pkgs.foot;
+      runny = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.runny;
       launcher = [
         terminal
         "-e"
-        # (lib.getExe pkgs.runny)
+        runny
       ];
     in
     {
@@ -19,9 +22,10 @@
         self.homeModules.foot
       ];
 
-      home.packages = with pkgs; [
-        wl-clipboard
-        brightnessctl
+      home.packages = [
+        pkgs.wl-clipboard
+        pkgs.brightnessctl
+        self.packages.${pkgs.stdenv.hostPlatform.system}.runny
       ];
 
       wayland.windowManager.niri = {

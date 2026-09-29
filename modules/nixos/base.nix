@@ -1,5 +1,9 @@
-{
+{ self, ... }: {
   flake.nixosModules.base = { lib, pkgs, ... }: {
+    imports = [
+      self.nixosModules.network
+    ];
+
     nix.settings = {
       auto-optimise-store = true;
       use-xdg-base-directories = true;
@@ -16,7 +20,10 @@
 
     services.dbus.implementation = lib.mkDefault "broker";
 
-    programs.nh.enable = true;
+    programs = {
+      nh.enable = true;
+      nix-ld.enable = true;
+    };
 
     environment.systemPackages = with pkgs; [
       wget

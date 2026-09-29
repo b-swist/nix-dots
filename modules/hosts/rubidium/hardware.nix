@@ -8,8 +8,9 @@
         "sd_mod"
       ];
       kernelModules = [ "kvm-intel" ];
-
       kernelParams = [ "psmouse.synaptics_intertouch=1" ];
+
+      tmp.useTmpfs = true;
     };
 
     fileSystems = {
@@ -19,6 +20,7 @@
         options = [
           "subvol=@"
           "compress=zstd"
+          "noatime"
         ];
       };
       "/home" = {
@@ -27,6 +29,7 @@
         options = [
           "subvol=@home"
           "compress=zstd"
+          "noatime"
         ];
       };
       "/nix" = {
@@ -57,11 +60,16 @@
       };
     };
 
+    zramSwap.enable = true;
     swapDevices = [ { device = "/dev/disk/by-uuid/155d4c6c-7138-4e79-9e99-7f74be6e4acd"; } ];
+
+    services.btrfs.autoScrub = {
+      enable = true;
+      fileSystems = [ "/" ];
+    };
 
     hardware = {
       cpu.intel.updateMicrocode = true;
-      bluetooth.enable = true;
       trackpoint = {
         enable = true;
         sensitivity = 100;

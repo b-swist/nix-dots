@@ -2,17 +2,24 @@
   flake.homeModules.shell =
     { config, lib, ... }:
     let
-      bashEnabled = config.programs.bash.enable;
+      inherit (lib) mkDefault mkIf;
     in
     {
-      programs = {
-        bash.enable = true;
+      home.shell.enableBashIntegration = mkDefault true;
 
-        ripgrep.enable = lib.mkDefault true;
-        fd.enable = lib.mkDefault true;
+      programs = {
+        bash = {
+          enable = true;
+          historyFile = mkIf config.home.preferXdgDirectories "${config.xdg.stateHome}/bash/history";
+        };
+
+        jq.enable = mkDefault true;
+        fzf.enable = mkDefault true;
+        ripgrep.enable = mkDefault true;
+        fd.enable = mkDefault true;
 
         readline = {
-          enable = lib.mkDefault true;
+          enable = mkDefault true;
           bindings = {
             "\\C-l" = "clear-display";
             "\\e[A" = "history-search-backward";
@@ -40,13 +47,8 @@
           };
         };
 
-        fzf = {
-          enable = lib.mkDefault true;
-          enableBashIntegration = bashEnabled;
-        };
         direnv = {
-          enable = lib.mkDefault true;
-          enableBashIntegration = bashEnabled;
+          enable = mkDefault true;
           nix-direnv.enable = config.programs.direnv.enable;
         };
       };

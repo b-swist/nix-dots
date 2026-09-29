@@ -5,7 +5,7 @@
     hosts.rubidium = {
       stateVersion = "26.05";
       extraModules = with self.homeModules; [
-        xdg
+        base
         shell
         ssh
         apps

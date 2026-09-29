@@ -11,9 +11,6 @@
       ...
     }:
     let
-      firefoxPipewirePkg = pkgs.wrapFirefox (pkgs.firefox-unwrapped.override {
-        pipewireSupport = config.services.pipewire.enable;
-      }) { };
     in
     {
       imports = with self.nixosModules; [
@@ -29,10 +26,7 @@
         libinput.enable = lib.mkDefault true;
       };
 
-      programs.firefox = {
-        enable = true;
-        package = firefoxPipewirePkg;
-      };
+      programs.firefox.enable = true;
 
       hardware.graphics.enable = true;
 
