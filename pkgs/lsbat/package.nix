@@ -9,13 +9,13 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "lsbat";
-  version = "1.0.0";
+  version = "1.0.1";
 
   src = fetchFromGitHub {
     owner = "b-swist";
     repo = "lsbat";
-    rev = "392f971fb82b43a1b89ad03cfb2cce370a3e2b65";
-    hash = "sha256-s5gERT+yJPutktiS0CFqbaOsLOWZU+cE5VqWKNDLJC0=";
+    tag = "1.0.1";
+    hash = "sha256-eiafNZi58L3rMv3oq5WRkEm76I1KytbY3DXaQdFJTpM=";
   };
 
   strictDeps = true;
